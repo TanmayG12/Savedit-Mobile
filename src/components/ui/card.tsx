@@ -28,6 +28,8 @@ type CardProps = {
 
 export default function Card({ item, onLike }: CardProps) {
   const typography = useTypography();
+  const [liked, setLiked] = React.useState(item.liked);
+  const [saved, setSaved] = React.useState(false);
 
   return (
     <View style={styles.card}>
@@ -56,17 +58,29 @@ export default function Card({ item, onLike }: CardProps) {
         <Text style={[typography.heading, { color: colors?.textPrimary ?? '#fff' }]}>
           {item.title}
         </Text>
-        <Text style={[typography.body, { color: colors?.textSecondary ?? '#ccc' }]}>
+        <Text style={[typography.caption ?? typography.body, { color: colors?.textSecondary ?? '#aaa', marginTop: 2 }]}>
+          @wanderlust
+        </Text>
+        <Text
+          style={[typography.body, { color: colors?.textSecondary ?? '#ccc', marginTop: 4 }]}
+          numberOfLines={2}
+        >
           {item.description}
         </Text>
         <IconBar
-          likes={item.liked ? 1 : 0}
+          likes={liked ? 1 : 0}
           comments={4}
-          onLikePress={onLike || (() => {})}
+          liked={liked}
+          saved={saved}
+          onLikePress={() => {
+            setLiked(!liked);
+            onLike?.();
+          }}
           onCommentPress={() => {}}
           onCalendarPress={() => {}}
           onLinkPress={() => {}}
-          onSavePress={() => {}}
+          onSavePress={() => setSaved(!saved)}
+          style={{ marginTop: 12 }}
         />
       </LinearGradient>
     </View>
@@ -117,6 +131,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.md,
+    paddingBottom: Spacing.lg,
     backgroundColor: '#111',
   },
 });

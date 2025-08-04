@@ -6,8 +6,8 @@ import Card from './ui/card'; // adjust if card.tsx is in a different location
 const SavedContent = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.heading}>Saved Content</Text>
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Text style={styles.heading}>Saved Content</Text>
         <Card
           item={{
             title: "Sunset in Santorini",
@@ -44,8 +44,7 @@ export default SavedContent;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#fff',
   },
   heading: {
     fontSize: 24,
@@ -55,5 +54,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 16,
     paddingBottom: 20,
+    flexGrow: 1,
   },
 });

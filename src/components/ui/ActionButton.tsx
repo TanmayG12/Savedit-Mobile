@@ -6,14 +6,19 @@ interface ActionButtonProps {
   onPress?: () => void;
   children: React.ReactNode;
   style?: ViewStyle;
+  isActive?: boolean;
 }
 
-const ActionButton: React.FC<ActionButtonProps> = ({ onPress, children, style }) => {
+const ActionButton: React.FC<ActionButtonProps> = ({ onPress, children, style, isActive }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={0.7}
-      style={[styles.button, style]}
+      style={[
+        styles.button,
+        isActive && { backgroundColor: Colors.primary },
+        style
+      ]}
     >
       {children}
     </TouchableOpacity>

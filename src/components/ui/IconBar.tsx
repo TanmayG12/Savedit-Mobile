@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, useColorScheme, Text } from 'react-native';
 import { FontAwesome, Feather, MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/theme/colors';
 import ActionButton from './ActionButton';
@@ -7,6 +7,8 @@ import ActionButton from './ActionButton';
 interface IconBarProps {
   likes: number;
   comments: number;
+  liked?: boolean;
+  saved?: boolean;
   onLikePress?: () => void;
   onCommentPress?: () => void;
   onCalendarPress?: () => void;
@@ -17,19 +19,48 @@ interface IconBarProps {
 const IconBar: React.FC<IconBarProps> = ({
   likes,
   comments,
+  liked,
+  saved,
   onLikePress,
   onCommentPress,
   onCalendarPress,
   onLinkPress,
   onSavePress,
 }) => {
+  const scheme = useColorScheme();
+  const iconColor = '#fff';
   return (
     <View style={styles.container}>
-      <ActionButton icon={<FontAwesome name="heart-o" size={18} color={Colors.mutedForeground} />} onPress={onLikePress} />
-      <ActionButton icon={<Feather name="message-circle" size={18} color={Colors.mutedForeground} />} onPress={onCommentPress} />
-      <ActionButton icon={<Feather name="calendar" size={18} color={Colors.mutedForeground} />} onPress={onCalendarPress} />
-      <ActionButton icon={<Feather name="link" size={18} color={Colors.mutedForeground} />} onPress={onLinkPress} />
-      <ActionButton icon={<MaterialIcons name="inbox" size={18} color={Colors.mutedForeground} />} onPress={onSavePress} />
+      <ActionButton onPress={onLikePress}>
+        <View style={styles.iconWrapper}>
+          <FontAwesome name={liked ? "heart" : "heart-o"} size={18} color={iconColor} />
+          <Text style={styles.iconText}>{likes}</Text>
+        </View>
+      </ActionButton>
+      <ActionButton onPress={onCommentPress}>
+        <View style={styles.iconWrapper}>
+          <Feather name="message-circle" size={18} color={iconColor} />
+          <Text style={styles.iconText}>{comments}</Text>
+        </View>
+      </ActionButton>
+      <ActionButton onPress={onCalendarPress}>
+        <View style={styles.iconWrapper}>
+          <Feather name="calendar" size={18} color={iconColor} />
+          <Text style={styles.iconText}>{' '}</Text>
+        </View>
+      </ActionButton>
+      <ActionButton onPress={onLinkPress}>
+        <View style={styles.iconWrapper}>
+          <Feather name="link" size={18} color={iconColor} />
+          <Text style={styles.iconText}>{' '}</Text>
+        </View>
+      </ActionButton>
+      <ActionButton onPress={onSavePress}>
+        <View style={styles.iconWrapper}>
+          <MaterialIcons name={saved ? "bookmark" : "inbox"} size={18} color={iconColor} />
+          <Text style={styles.iconText}>{' '}</Text>
+        </View>
+      </ActionButton>
     </View>
   );
 };
@@ -37,10 +68,19 @@ const IconBar: React.FC<IconBarProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    gap: 20,
     marginTop: 12,
     marginBottom: 4,
     alignItems: 'center',
+  },
+  iconWrapper: {
+    marginRight: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconText: {
+    color: '#fff',
+    fontSize: 12,
+    marginTop: 2,
   },
 });
 
