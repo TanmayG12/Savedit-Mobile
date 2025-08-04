@@ -1,13 +1,27 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text } from 'react-native';
-import { ScrollView, View } from 'react-native';
+import { View, StyleSheet, Text, StatusBar } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import Card from './ui/card'; // adjust if card.tsx is in a different location
+import SearchBar from './ui/SearchBar';
+import SaveActionButton from './ui/SaveActionButton';
+import OverflowMenuButton from './ui/OverflowMenuButton';
 
 const SavedContent = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      <View style={styles.topBar}>
+        <View style={styles.branding}>
+          <Ionicons name="bookmark" size={22} color="#a78bfa" />
+          <Text style={styles.brandText}>SavedIt</Text>
+        </View>
+        <View style={styles.topActions}>
+          <SaveActionButton />
+          <OverflowMenuButton />
+        </View>
+      </View>
+      <SearchBar />
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <Text style={styles.heading}>Saved Content</Text>
         <Card
           item={{
             title: "Sunset in Santorini",
@@ -35,7 +49,7 @@ const SavedContent = () => {
           }}
         />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -45,11 +59,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingTop: 10, // Fixed padding so top bar sits at the very top
   },
-  heading: {
-    fontSize: 24,
+  topBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 0,
+    paddingBottom: 10,
+    marginBottom: 0,
+  },
+  branding: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  brandText: {
+    fontSize: 20,
     fontWeight: 'bold',
-    margin: 20,
+    color: '#000',
+  },
+  topActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
   },
   scrollContent: {
     paddingHorizontal: 16,
