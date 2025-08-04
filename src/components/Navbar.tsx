@@ -1,13 +1,13 @@
-
-
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Colors } from '@/theme/colors';
+import { useAppTheme } from '../theme/ThemeProvider';
 
 const Navbar = () => {
+  const theme = useAppTheme();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>SavedIt</Text>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 16, backgroundColor: theme.background }}>
+      <Text style={{ fontWeight: 'bold', color: theme.text, fontSize: 20 }}>SavedIt</Text>
+      <SaveActionButton />
+      <OverflowMenuButton />
     </View>
   );
 };
