@@ -13,6 +13,7 @@ import { useTypography } from '@/theme/Typography';
 import { Spacing } from '@/theme/spacing';
 import ActionButton from './ActionButton';
 import { colors } from '@/theme/colors';
+import { Feather } from '@expo/vector-icons';
 
 type CardProps = {
   item: {
@@ -61,6 +62,12 @@ export default function Card({ item, onLike }: CardProps) {
         <Text style={[typography.caption ?? typography.body, { color: colors?.textSecondary ?? '#aaa', marginTop: 2 }]}>
           @wanderlust
         </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
+          <Feather name="map-pin" size={14} color={colors?.textSecondary ?? '#aaa'} />
+          <Text style={[typography.caption ?? typography.body, { color: colors?.textSecondary ?? '#aaa', marginLeft: 4 }]}>
+            Santorini, Greece
+          </Text>
+        </View>
         <Text
           style={[typography.body, { color: colors?.textSecondary ?? '#ccc', marginTop: 4 }]}
           numberOfLines={2}
@@ -91,13 +98,12 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 20,
     borderRadius: 12,
-    overflow: 'hidden',
-    backgroundColor: 'transparent',
+    backgroundColor: '#111',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.06,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.3,
     shadowRadius: 12,
-    elevation: 3,
+    elevation: 8,
   },
   image: {
     width: '100%',
@@ -133,5 +139,7 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.md,
     paddingBottom: Spacing.lg,
     backgroundColor: '#111',
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
   },
 });
