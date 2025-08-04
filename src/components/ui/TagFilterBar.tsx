@@ -4,11 +4,11 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  useColorScheme,
   ScrollView,
 } from 'react-native';
 
 import Tag from './Tag';
+import { useAppTheme } from '@/theme/ThemeProvider';
 
 interface Props {
   tags: string[];
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const TagFilterBar: React.FC<Props> = ({ tags, selectedTag, onTagSelect }) => {
-  const isDark = useColorScheme() === 'dark';
+  const { theme, isDarkMode } = useAppTheme();
 
   return (
     <ScrollView
@@ -25,39 +25,32 @@ const TagFilterBar: React.FC<Props> = ({ tags, selectedTag, onTagSelect }) => {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.scrollContainer}
     >
-      {tags.map((tag) => (
-        <TouchableOpacity
-          key={tag}
-          onPress={() => onTagSelect(tag)}
-          style={[
-            styles.tag,
-            {
-              backgroundColor:
-                selectedTag === tag
-                  ? isDark
-                    ? '#6e6ef8'
-                    : '#a77cf2'
-                  : isDark
-                  ? '#2c2c2e'
-                  : '#e5e5ea',
-            },
-          ]}
-        >
-          <Text
-            style={{
-              color:
-                selectedTag === tag
-                  ? '#fff'
-                  : isDark
-                  ? '#aaa'
-                  : '#333',
-              fontWeight: selectedTag === tag ? 'bold' : 'normal',
-            }}
+      {tags.map((tag) => {
+        const isSelected = selectedTag === tag;
+        const backgroundColor = isSelected
+          ? theme.primary
+          : isDarkMode
+            ? theme.card
+            : '#e5e5ea';
+
+        const textColor = isSelected
+          ? '#fff'
+          : isDarkMode
+            ? '#aaa'
+            : '#333';
+
+        return (
+          <TouchableOpacity
+            key={tag}
+            onPress={() => onTagSelect(tag)}
+            style={[styles.tag, { backgroundColor }]}
           >
-            {tag}
-          </Text>
-        </TouchableOpacity>
-      ))}
+            <Text style={{ color: textColor, fontWeight: isSelected ? 'bold' : 'normal' }}>
+              {tag}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
     </ScrollView>
   );
 };

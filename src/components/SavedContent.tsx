@@ -64,7 +64,7 @@ const SavedContent = () => {
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <StatusBar barStyle={theme.background === '#000000' ? 'light-content' : 'dark-content'} />
 
-      <View style={[styles.topBar]}>
+      <View style={styles.topBar}>
         <View style={styles.branding}>
           <Ionicons name="bookmark" size={22} color={theme.primary} />
           <Text style={[styles.brandText, { color: theme.text }]}>SavedIt</Text>
@@ -75,10 +75,11 @@ const SavedContent = () => {
         </View>
       </View>
 
-      <View style={styles.sectionSpacing}>
+      <View style={styles.searchSpacing}>
         <SearchBar />
       </View>
-      <View style={styles.sectionSpacing}>
+
+      <View style={styles.tagSpacing}>
         <TagFilterBar tags={tags} selectedTag={selectedTag} onTagSelect={setSelectedTag} />
       </View>
 
@@ -130,7 +131,11 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     flexGrow: 1,
   },
-  sectionSpacing: {
-    marginVertical: 4,
+  searchSpacing: {
+    marginTop: 4,
+    marginBottom: 6, // less space between Search and Filter
+  },
+  tagSpacing: {
+    marginBottom: 16, // more space before Cards
   },
 });
