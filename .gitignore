@@ -5,9 +5,16 @@ node_modules/
 
 # Expo
 .expo/
+.expo-shared/
 dist/
 web-build/
 expo-env.d.ts
+
+# Babel / Metro configs
+.babelrc
+.babelrc.js
+.babel.config.js
+.metro.config.js
 
 # Native
 .kotlin/
@@ -31,7 +38,11 @@ yarn-error.*
 *.pem
 
 # local env files
+.env
 .env*.local
 
 # typescript
 *.tsbuildinfo
+
+# VS Code
+.vscode/

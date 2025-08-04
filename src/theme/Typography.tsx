@@ -28,3 +28,5 @@ export const useTypography = () => {
     },
   });
 };
+
+export default useTypography;

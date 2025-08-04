@@ -9,9 +9,10 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import Tag from './Tag';
 import IconBar from './IconBar';
-import Typography from '@/theme/Typography';
+import { useTypography } from '@/theme/Typography';
 import { Spacing } from '@/theme/spacing';
 import ActionButton from './ActionButton';
+import { colors } from '@/theme/colors';
 
 type CardProps = {
   item: {
@@ -26,6 +27,8 @@ type CardProps = {
 };
 
 export default function Card({ item, onLike }: CardProps) {
+  const typography = useTypography();
+
   return (
     <View style={styles.card}>
       <ImageBackground
@@ -46,23 +49,26 @@ export default function Card({ item, onLike }: CardProps) {
           </View>
         </LinearGradient>
       </ImageBackground>
-      <View style={styles.contentContainer}>
-        <Text style={Typography?.heading || { fontSize: 18, fontWeight: '600', marginBottom: 8 }}>
+      <LinearGradient
+        colors={(colors?.cardGradient) ?? ['#222', '#111']}
+        style={styles.contentContainer}
+      >
+        <Text style={[typography.heading, { color: colors?.textPrimary ?? '#fff' }]}>
           {item.title}
         </Text>
-        <Text style={Typography?.body || { fontSize: 14, color: '#555' }}>
+        <Text style={[typography.body, { color: colors?.textSecondary ?? '#ccc' }]}>
           {item.description}
         </Text>
         <IconBar
           likes={item.liked ? 1 : 0}
           comments={4}
-          onLikePress={onLike ?? (() => {})}
+          onLikePress={onLike || (() => {})}
           onCommentPress={() => {}}
           onCalendarPress={() => {}}
           onLinkPress={() => {}}
           onSavePress={() => {}}
         />
-      </View>
+      </LinearGradient>
     </View>
   );
 }
@@ -72,7 +78,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 12,
     overflow: 'hidden',
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.06,
@@ -111,5 +117,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.md,
+    backgroundColor: '#111',
   },
 });
