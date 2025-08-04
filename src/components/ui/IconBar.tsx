@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, useColorScheme, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { FontAwesome, Feather, MaterialIcons } from '@expo/vector-icons';
-import { Colors } from '@/theme/colors';
+import { useAppTheme } from '@/theme/ThemeProvider';
 import ActionButton from './ActionButton';
 
 interface IconBarProps {
@@ -27,38 +27,39 @@ const IconBar: React.FC<IconBarProps> = ({
   onLinkPress,
   onSavePress,
 }) => {
-  const scheme = useColorScheme();
-  const iconColor = '#fff';
+  const { theme } = useAppTheme(); // ✅ CORRECT DESTRUCTURING
+  const iconColor = theme.text;
+
   return (
     <View style={styles.container}>
       <ActionButton onPress={onLikePress}>
         <View style={styles.iconWrapper}>
-          <FontAwesome name={liked ? "heart" : "heart-o"} size={18} color={iconColor} />
-          <Text style={styles.iconText}>{likes}</Text>
+          <FontAwesome name={liked ? 'heart' : 'heart-o'} size={18} color={iconColor} />
+          <Text style={[styles.iconText, { color: iconColor }]}>{likes}</Text>
         </View>
       </ActionButton>
       <ActionButton onPress={onCommentPress}>
         <View style={styles.iconWrapper}>
           <Feather name="message-circle" size={18} color={iconColor} />
-          <Text style={styles.iconText}>{comments}</Text>
+          <Text style={[styles.iconText, { color: iconColor }]}>{comments}</Text>
         </View>
       </ActionButton>
       <ActionButton onPress={onCalendarPress}>
         <View style={styles.iconWrapper}>
           <Feather name="calendar" size={18} color={iconColor} />
-          <Text style={styles.iconText}>{' '}</Text>
+          <Text style={[styles.iconText, { color: iconColor }]}>{' '}</Text>
         </View>
       </ActionButton>
       <ActionButton onPress={onLinkPress}>
         <View style={styles.iconWrapper}>
           <Feather name="link" size={18} color={iconColor} />
-          <Text style={styles.iconText}>{' '}</Text>
+          <Text style={[styles.iconText, { color: iconColor }]}>{' '}</Text>
         </View>
       </ActionButton>
       <ActionButton onPress={onSavePress}>
         <View style={styles.iconWrapper}>
-          <MaterialIcons name={saved ? "bookmark" : "inbox"} size={18} color={iconColor} />
-          <Text style={styles.iconText}>{' '}</Text>
+          <MaterialIcons name={saved ? 'bookmark' : 'inbox'} size={18} color={iconColor} />
+          <Text style={[styles.iconText, { color: iconColor }]}>{' '}</Text>
         </View>
       </ActionButton>
     </View>
@@ -78,7 +79,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   iconText: {
-    color: '#fff',
     fontSize: 12,
     marginTop: 2,
   },

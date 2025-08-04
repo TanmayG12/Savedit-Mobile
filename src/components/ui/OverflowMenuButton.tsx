@@ -5,14 +5,15 @@ import {
   Text,
   Modal,
   Pressable,
-  useColorScheme,
   StyleSheet,
   Animated,
   Easing,
   Platform,
+  Switch,
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAppTheme } from '@/theme/ThemeProvider';
 
 type Props = {
   onEdit?: () => void;
@@ -21,8 +22,7 @@ type Props = {
 };
 
 const OverflowMenuButton = ({ onEdit, onDelete, onShare }: Props) => {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const { theme, isDarkMode, toggleTheme } = useAppTheme();
   const [visible, setVisible] = useState(false);
   const [fadeAnim] = useState(new Animated.Value(0));
   const insets = useSafeAreaInsets();
@@ -58,12 +58,12 @@ const OverflowMenuButton = ({ onEdit, onDelete, onShare }: Props) => {
         style={[
           styles.iconButton,
           {
-            backgroundColor: isDark ? '#2c2c2e' : '#e5e5e5',
-            borderColor: isDark ? '#444' : '#ccc',
+            backgroundColor: isDarkMode ? '#2c2c2e' : '#e5e5e5',
+            borderColor: isDarkMode ? '#444' : '#ccc',
           },
         ]}
       >
-        <Entypo name="dots-three-vertical" size={18} color={isDark ? '#fff' : '#000'} />
+        <Entypo name="dots-three-vertical" size={18} color={isDarkMode ? '#fff' : '#000'} />
       </TouchableOpacity>
 
       <Modal
@@ -86,8 +86,8 @@ const OverflowMenuButton = ({ onEdit, onDelete, onShare }: Props) => {
             style={[
               styles.menuContainer,
               {
-                backgroundColor: isDark ? '#2c2c2e' : '#fff',
-                shadowColor: isDark ? '#000' : '#aaa',
+                backgroundColor: theme.card,
+                shadowColor: isDarkMode ? '#000' : '#aaa',
                 opacity: fadeAnim,
                 transform: [
                   {
@@ -101,14 +101,22 @@ const OverflowMenuButton = ({ onEdit, onDelete, onShare }: Props) => {
             ]}
           >
             <Pressable onPress={() => handleAction(onEdit)} style={styles.menuItem}>
-              <Text style={[styles.menuText, { color: isDark ? '#fff' : '#111' }]}>Edit</Text>
+              <Text style={[styles.menuText, { color: theme.text }]}>Edit</Text>
             </Pressable>
             <Pressable onPress={() => handleAction(onShare)} style={styles.menuItem}>
-              <Text style={[styles.menuText, { color: isDark ? '#fff' : '#111' }]}>Share</Text>
+              <Text style={[styles.menuText, { color: theme.text }]}>Share</Text>
             </Pressable>
             <Pressable onPress={() => handleAction(onDelete)} style={styles.menuItem}>
               <Text style={[styles.menuText, { color: '#ff4d4f' }]}>Delete</Text>
             </Pressable>
+            <View style={[styles.menuItem, styles.switchRow]}>
+              <Text style={[styles.menuText, { color: theme.text }]}>Dark Mode</Text>
+              <Switch
+                value={isDarkMode}
+                onValueChange={toggleTheme}
+                thumbColor={isDarkMode ? '#a78bfa' : '#999'}
+              />
+            </View>
           </Animated.View>
         </Pressable>
       </Modal>
@@ -132,7 +140,7 @@ const styles = StyleSheet.create({
   menuContainer: {
     borderRadius: 10,
     paddingVertical: 8,
-    width: 180,
+    width: 200,
     elevation: 6,
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 3 },
@@ -143,6 +151,11 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontSize: 16,
+  },
+  switchRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
 

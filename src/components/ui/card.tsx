@@ -12,8 +12,8 @@ import IconBar from './IconBar';
 import { useTypography } from '@/theme/Typography';
 import { Spacing } from '@/theme/spacing';
 import ActionButton from './ActionButton';
-import { colors } from '@/theme/colors';
 import { Feather } from '@expo/vector-icons';
+import { useAppTheme } from '@/theme/ThemeProvider';
 
 type CardProps = {
   item: {
@@ -31,9 +31,10 @@ export default function Card({ item, onLike }: CardProps) {
   const typography = useTypography();
   const [liked, setLiked] = React.useState(item.liked);
   const [saved, setSaved] = React.useState(false);
+  const { theme } = useAppTheme();
 
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, { backgroundColor: theme.card }]}>
       <ImageBackground
         source={{ uri: item.imageUrl || 'https://via.placeholder.com/300x200.png?text=No+Image' }}
         style={styles.image}
@@ -44,32 +45,33 @@ export default function Card({ item, onLike }: CardProps) {
           style={styles.gradientOverlay}
         >
           <View style={styles.tagContainer}>
-            <Tag label={item.platform === 'instagram' ? 'Instagram' : 'TikTok'} backgroundColor={item.platform === 'instagram' ? '#E1306C' : '#000'} />
-            <Tag label="Travel" backgroundColor="#444" />
+            <Tag
+              label={item.platform === 'instagram' ? 'Instagram' : 'TikTok'}
+              backgroundColor={item.platform === 'instagram' ? '#E1306C' : '#000'}
+            />
+            <Tag label="Travel" backgroundColor={theme.border} />
           </View>
           <View style={styles.bookmark}>
             <ActionButton icon="🔖" onPress={() => {}} />
           </View>
         </LinearGradient>
       </ImageBackground>
-      <LinearGradient
-        colors={(colors?.cardGradient) ?? ['#222', '#111']}
-        style={styles.contentContainer}
-      >
-        <Text style={[typography.heading, { color: colors?.textPrimary ?? '#fff' }]}>
+
+      <View style={[styles.contentContainer, { backgroundColor: theme.card }]}>
+        <Text style={[typography.heading, { color: theme.text }]}>
           {item.title}
         </Text>
-        <Text style={[typography.caption ?? typography.body, { color: colors?.textSecondary ?? '#aaa', marginTop: 2 }]}>
+        <Text style={[typography.caption ?? typography.body, { color: theme.text, marginTop: 2 }]}>
           @wanderlust
         </Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
-          <Feather name="map-pin" size={14} color={colors?.textSecondary ?? '#aaa'} />
-          <Text style={[typography.caption ?? typography.body, { color: colors?.textSecondary ?? '#aaa', marginLeft: 4 }]}>
+          <Feather name="map-pin" size={14} color={theme.text} />
+          <Text style={[typography.caption ?? typography.body, { color: theme.text, marginLeft: 4 }]}>
             Santorini, Greece
           </Text>
         </View>
         <Text
-          style={[typography.body, { color: colors?.textSecondary ?? '#ccc', marginTop: 4 }]}
+          style={[typography.body, { color: theme.text, marginTop: 4 }]}
           numberOfLines={2}
         >
           {item.description}
@@ -89,7 +91,7 @@ export default function Card({ item, onLike }: CardProps) {
           onSavePress={() => setSaved(!saved)}
           style={{ marginTop: 12 }}
         />
-      </LinearGradient>
+      </View>
     </View>
   );
 }
@@ -98,7 +100,6 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 20,
     borderRadius: 12,
-    backgroundColor: '#111',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.3,
@@ -138,7 +139,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.md,
     paddingBottom: Spacing.lg,
-    backgroundColor: '#111',
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
   },

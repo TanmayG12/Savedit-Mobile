@@ -1,15 +1,19 @@
 import React, { useState, useMemo } from 'react';
-import { View, StyleSheet, Text, StatusBar } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, StatusBar, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Card from './ui/card'; // adjust if card.tsx is in a different location
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import Card from './ui/card';
 import SearchBar from './ui/SearchBar';
 import TagFilterBar from './ui/TagFilterBar';
 import SaveActionButton from './ui/SaveActionButton';
 import OverflowMenuButton from './ui/OverflowMenuButton';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { useAppTheme } from '../theme/ThemeProvider';
 
 const SavedContent = () => {
+  const theme = useAppTheme();
+
   const items = [
     {
       title: "Sunset in Santorini",
@@ -45,17 +49,20 @@ const SavedContent = () => {
   }, [items, selectedTag]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+      <StatusBar barStyle={theme.background === '#000000' ? 'light-content' : 'dark-content'} />
+
       <View style={styles.topBar}>
         <View style={styles.branding}>
-          <Ionicons name="bookmark" size={22} color="#a78bfa" />
-          <Text style={styles.brandText}>SavedIt</Text>
+          <Ionicons name="bookmark" size={22} color={theme.primary} />
+          <Text style={[styles.brandText, { color: theme.text }]}>SavedIt</Text>
         </View>
         <View style={styles.topActions}>
           <SaveActionButton />
           <OverflowMenuButton />
         </View>
       </View>
+
       <View style={styles.sectionSpacing}>
         <SearchBar />
       </View>
@@ -66,6 +73,7 @@ const SavedContent = () => {
           onTagSelect={setSelectedTag}
         />
       </View>
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {filteredItems.map((item, index) => (
           <Card key={index} item={item} />
@@ -80,17 +88,14 @@ export default SavedContent;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 10, // Fixed padding so top bar sits at the very top
+    paddingTop: 10,
   },
   topBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 0,
     paddingBottom: 10,
-    marginBottom: 0,
   },
   branding: {
     flexDirection: 'row',
@@ -100,7 +105,6 @@ const styles = StyleSheet.create({
   brandText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#000',
   },
   topActions: {
     flexDirection: 'row',
