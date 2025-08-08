@@ -23,6 +23,7 @@ type CardProps = {
     liked: boolean;
     platform: 'instagram' | 'tiktok';
     description: string;
+    tag: string;
   };
   onLike: () => void;
 };
@@ -49,10 +50,12 @@ export default function Card({ item, onLike }: CardProps) {
               label={item.platform === 'instagram' ? 'Instagram' : 'TikTok'}
               backgroundColor={item.platform === 'instagram' ? '#E1306C' : '#000'}
             />
-            <Tag label="Travel" backgroundColor={theme.border} />
+            <Tag label={item.tag} backgroundColor={theme.border} />
           </View>
           <View style={styles.bookmark}>
-            <ActionButton icon="🔖" onPress={() => {}} />
+            <ActionButton onPress={() => {}}>
+              <Text>🔖</Text>
+            </ActionButton>
           </View>
         </LinearGradient>
       </ImageBackground>
@@ -61,14 +64,10 @@ export default function Card({ item, onLike }: CardProps) {
         <Text style={[typography.heading, { color: theme.text }]}>
           {item.title}
         </Text>
-        <Text style={[typography.caption ?? typography.body, { color: theme.text, marginTop: 2 }]}>
-          @wanderlust
-        </Text>
+        <Text style={[typography.body, { color: theme.text, marginTop: 2 }]}>@wanderlust</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 4 }}>
           <Feather name="map-pin" size={14} color={theme.text} />
-          <Text style={[typography.caption ?? typography.body, { color: theme.text, marginLeft: 4 }]}>
-            Santorini, Greece
-          </Text>
+          <Text style={[typography.body, { color: theme.text, marginLeft: 4 }]}>Santorini, Greece</Text>
         </View>
         <Text
           style={[typography.body, { color: theme.text, marginTop: 4 }]}
@@ -76,21 +75,22 @@ export default function Card({ item, onLike }: CardProps) {
         >
           {item.description}
         </Text>
-        <IconBar
-          likes={liked ? 1 : 0}
-          comments={4}
-          liked={liked}
-          saved={saved}
-          onLikePress={() => {
-            setLiked(!liked);
-            onLike?.();
-          }}
-          onCommentPress={() => {}}
-          onCalendarPress={() => {}}
-          onLinkPress={() => {}}
-          onSavePress={() => setSaved(!saved)}
-          style={{ marginTop: 12 }}
-        />
+        <View style={{ marginTop: 12 }}>
+          <IconBar
+            likes={liked ? 1 : 0}
+            comments={4}
+            liked={liked}
+            saved={saved}
+            onLikePress={() => {
+              setLiked(!liked);
+              onLike?.();
+            }}
+            onCommentPress={() => {}}
+            onCalendarPress={() => {}}
+            onLinkPress={() => {}}
+            onSavePress={() => setSaved(!saved)}
+          />
+        </View>
       </View>
     </View>
   );

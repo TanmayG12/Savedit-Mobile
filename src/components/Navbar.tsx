@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useAppTheme } from '../theme/ThemeProvider';
-import SaveActionButton from './SaveActionButton';
-import OverflowMenuButton from './OverflowMenuButton';
+import SaveActionButton from './ui/SaveActionButton';
+import OverflowMenuButton from './ui/OverflowMenuButton';
 
 const Navbar = () => {
   const { theme } = useAppTheme(); // ✅ FIXED
