@@ -3,11 +3,12 @@ import { View, Text, StyleSheet } from 'react-native';
 
 interface TagProps {
   label: string;
+  backgroundColor?: string;
 }
 
-const Tag: React.FC<TagProps> = ({ label }) => {
+const Tag: React.FC<TagProps> = ({ label, backgroundColor = '#333' }) => {
   return (
-    <View style={styles.tag}>
+    <View style={[styles.tag, { backgroundColor }]}>
       <Text style={styles.text}>{label}</Text>
     </View>
   );
@@ -15,7 +16,6 @@ const Tag: React.FC<TagProps> = ({ label }) => {
 
 const styles = StyleSheet.create({
   tag: {
-    backgroundColor: '#333',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 999,
