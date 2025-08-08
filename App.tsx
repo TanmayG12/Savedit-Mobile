@@ -1,7 +1,7 @@
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
 import { ThemeProvider, useAppTheme } from './src/theme/ThemeProvider';
-import SavedContent from './src/components/SavedContent';
+import SavedScreen from './src/screens/SavedScreen';
 
 const ThemedStatusBar = () => {
   const { isDarkMode } = useAppTheme();
@@ -13,7 +13,7 @@ export default function App() {
     <SafeAreaProvider>
       <ThemeProvider>
         <ThemedStatusBar />
-        <SavedContent />
+        <SavedScreen />
       </ThemeProvider>
     </SafeAreaProvider>
   );
